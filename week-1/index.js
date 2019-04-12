@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
+const port = process.env.PORT || 3000;
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 var http = require('http').Server(app)
@@ -20,22 +22,34 @@ io.on('connection', function(socket) {
 	users.count++
 		socket.on('name change', function(name) {
 			socket.userName = name;
+			msg = {message: "Has joined the room", name:socket.userName}
+			messages.push(msg)
+			socket.broadcast.emit('chatMessage', msg);
 			messages.forEach(function(element) {
-			  io.to(socket.id).emit('chat message', element)
+			  io.to(socket.id).emit('chatMessage', element)
 			});
 		})
 	socket.on('chat message', function(msg) {
 		msg.name = socket.userName;
-		socket.broadcast.emit('chat message', msg);
+		socket.broadcast.emit('chatMessage', msg);
+		socket.emit('chatMessage', msg);
 		bier(msg);
 		messages.push(msg)
 	});
+	socket.on("typing", function(){
+		if(socket.typing === false || !socket.typing){
+			socket.typing = true
+			socket.broadcast.emit('typing', socket.userName);
+		}
+	})
+	socket.on("typingEnd", function(){
+		socket.typing = false
+		socket.broadcast.emit('typingEnd');
+	})
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
 		users.count--
-			console.log(users.count);
 	});
-	console.log(users.count);
 });
 
 async function bier(msg) {
@@ -43,15 +57,14 @@ async function bier(msg) {
 	if (message.includes("bier") || message.includes("bier?")) {
 		function callback(error, response, body) {
 			let data = JSON.parse(body);
-			console.log(data);
 			if (data.isBeerTime === false) {
-				io.emit('chat message', {
+				io.emit('chatMessage', {
 					message: "nee sorry man nog:   " + data.duration.hours + ":" + data.duration.minutes,
 					img: data.imagePath,
 					name: "BierBot"
 				});
 			} else {
-				io.emit('chat message', {
+				io.emit('chatMessage', {
 					message: "ja"
 				});
 			}
@@ -65,6 +78,6 @@ async function bier(msg) {
 	}
 }
 
-http.listen(3000, function() {
-	console.log('listening on *:3000');
+http.listen(port, function() {
+	console.log('listening on *:' + port);
 });

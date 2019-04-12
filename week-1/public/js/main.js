@@ -7,25 +7,31 @@
 		let hours = ()=>{if(today.getHours()<10){return "0"+today.getHours()}else{return today.getHours()}}
 		let minutes = ()=>{if(today.getMinutes()<10){return "0"+today.getMinutes()}else{return today.getMinutes()}}
 		let time = hours() + ":" + minutes();
-		console.log(time);
 		let data = {
 				message: document.querySelector('#m').value,
 				time: time
 		}
-		console.log(data);
 		socket.emit('chat message', data);
 		document.querySelector('#m').value = "";
 		return false;
 	});
-	socket.on('chat message', function(msg) {
-		console.log(msg);
+
+	document.querySelector('form.message-input').addEventListener('input', function(e) {
+		socket.emit("typing");
+		let timeoutID = window.setTimeout(typeEnd, 2000);
+		function typeEnd(){
+			socket.emit("typingEnd");
+		}
+	})
+
+	socket.on('chatMessage', function(msg) {
 		let newLi = document.createElement("li")
 		let messageUser = document.createElement("span")
 		messageUser.classList.add("message-user")
 		let message =  document.createTextNode(msg.message)
 		let userName = document.createTextNode(msg.name + ":  ")
 		let timestamp = document.createElement("span")
-		timestamp.textContent = msg.time
+		timestamp.textContent = msg.time || "";
 		timestamp.classList.add("timestamp")
 
 		messageUser.append(userName)
@@ -47,5 +53,11 @@
 		e.target.remove();
 		document.querySelector('#m').disabled = false;
 		document.querySelector('#m').focus();
+	})
+	socket.on("typing", function(name){
+		document.querySelector(".typing").textContent = name + " is typing..."
+	})
+	socket.on("typingEnd", function(){
+		document.querySelector(".typing").textContent = ""
 	})
 })()
