@@ -34,6 +34,9 @@
 		timestamp.textContent = msg.time || "";
 		timestamp.classList.add("timestamp")
 
+		if(msg.name === user){
+			newLi.classList.add("own-message");
+		}
 		messageUser.append(userName)
 		newLi.append(messageUser)
 		newLi.append(message)

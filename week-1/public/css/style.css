@@ -33,7 +33,7 @@ form.message-input button {
 #messages {
 	list-style-type: none;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 3em 0;
 }
 
 #messages li {
@@ -44,6 +44,10 @@ form.message-input button {
 
 #messages li:nth-child(odd) {
 	background: #eee;
+}
+
+.own-message{
+	background-color: rgb(149, 255, 128)!important;
 }
 
 .message-user{

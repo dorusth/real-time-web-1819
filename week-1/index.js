@@ -47,6 +47,9 @@ io.on('connection', function(socket) {
 		socket.broadcast.emit('typingEnd');
 	})
 	socket.on('disconnect', function() {
+		msg = {message: "Has left the room", name:socket.userName}
+		messages.push(msg)
+		socket.broadcast.emit('chatMessage', msg);
 		console.log('user disconnected');
 		users.count--
 	});
