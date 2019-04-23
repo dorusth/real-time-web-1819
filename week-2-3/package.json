@@ -33,6 +33,8 @@
     "passport-spotify": "^1.0.1",
     "query-string": "^6.4.2",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "twit": "^2.2.11",
+    "twitter-stream-channels": "^1.0.1"
   }
 }
