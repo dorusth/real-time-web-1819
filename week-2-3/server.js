@@ -12,16 +12,14 @@ const Twit = require('twit')
 app.use(express.static('public'))
 
 var client = new TwitterStreamChannels({
-	consumer_key: 'COYvS0Z2mICLn2C6ClbDpPIIW',
-	consumer_secret: 't2sOzPVSkXXPgBICeRjRsDSxZKJ603dF5TL4P9MGsjEAeBvzyX',
-	access_token: '1118133265171406849-tlrk8qekkvWyyyi28zTaLZXjomzTm7',
-	access_token_secret: 'yqHWuapHva5yz37dbRq3dzIN4jFoeQESZF7P9j0ZHX7tS'
+	consumer_key: process.env.CONSUMER_KEY,
+	consumer_secret: process.env.CONSUMER_KEY_SECRET,
+	access_token: process.env.ACCESS_TOKEN,
+	access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
 
-var channels = {
-	// "test": "test"
-};
+var channels = {};
 var stream = false
 
 var data = {}

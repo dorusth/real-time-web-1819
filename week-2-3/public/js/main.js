@@ -5,7 +5,7 @@
 		e.preventDefault();
 		let value = e.srcElement.childNodes[1].value;
 		console.log(value);
-		let filters = ["", " ", "." ,"   "]
+		let filters = ["", " ","   "]
 		if(filters.includes(value)){
 			console.log("optyfen");
 		}else{
