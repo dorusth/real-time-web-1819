@@ -12,7 +12,10 @@
 		//console.log(data);
 		draw(data);
 	})
-})()
+
+	socket.on("roomJoin", function(data) {
+		console.log("joined");
+	})
 
 function draw(tweetData) {
 	tweetData.sort((a, b) => (a.count < b.count) ? 1 : -1)
@@ -20,7 +23,7 @@ function draw(tweetData) {
 	let names = []
 	let counts = []
 	for (item in tweetData) {
-		names.push(tweetData[item].name)
+		names.push(tweetData[item].lang)
 		counts.push(tweetData[item].count)
 	}
 
@@ -35,6 +38,9 @@ function draw(tweetData) {
 		distributeSeries: true
 	};
 
-	
+
 	new Chartist.Bar('.ct-chart', data, options);
 }
+
+
+})()
