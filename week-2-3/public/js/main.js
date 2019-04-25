@@ -5,7 +5,12 @@
 		e.preventDefault();
 		let value = e.srcElement.childNodes[1].value;
 		console.log(value);
-		socket.emit('topicRequest', value);
+		let filters = ["", " ", "." ,"   "]
+		if(filters.includes(value)){
+			console.log("optyfen");
+		}else{
+			socket.emit('topicRequest', value);
+		}
 	});
 
 	socket.on("returnLang", function(data) {
@@ -33,8 +38,8 @@ function draw(tweetData) {
 	};
 
 	var options = {
-		width: 600,
-		height: 400,
+		width: 900,
+		height: 600,
 		distributeSeries: true
 	};
 

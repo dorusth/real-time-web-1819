@@ -27,13 +27,17 @@ var stream = false
 var data = {}
 
 io.on('connection', function(socket) {
-	socket.topic = []
 	socket.on("topicRequest", function(topic) {
+		if(!socket.topic){
+			socket.topic = topic
+		}else{
+			socket.leave(socket.topic);
+			socket.topic = topic
+		}
 		if (channels[topic]) {
 			console.log("joe");
 			socket.join(topic)
 		} else {
-			socket.topic.push(topic)
 			channels[topic] = topic
 			data[topic] = []
 			socket.join(topic)
@@ -99,13 +103,13 @@ io.on('connection', function(socket) {
 	socket.on('disconnect', function() {
 		//console.log(socket.topic);
 		//console.log(io.sockets.adapter.rooms[socket.topic[0]]);
-		if(io.sockets.adapter.rooms[socket.topic[0]]){
-			delete channels[socket.topic[0]]
-			stream.stop();
-			stream = client.streamChannels({
-				track: channels
-			});
-		}
+		// if(io.sockets.adapter.rooms[socket.topic[0]]){
+		// 	delete channels[socket.topic[0]]
+		// 	stream.stop();
+		// 	stream = client.streamChannels({
+		// 		track: channels
+		// 	});
+		// }
 	})
 })
 
