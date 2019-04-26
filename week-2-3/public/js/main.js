@@ -38,13 +38,17 @@ function draw(tweetData) {
 	};
 
 	var options = {
-		width: 900,
 		height: 600,
 		distributeSeries: true
 	};
 
-
 	new Chartist.Bar('.ct-chart', data, options);
+
+	document.querySelector(".list").innerHTML = ``;
+	let langlist = tweetData.map(lang =>{
+		return(`<li>${lang.lang}:${lang.count} </li>`)
+	})
+	document.querySelector(".list").innerHTML = langlist.join('');
 }
 
 

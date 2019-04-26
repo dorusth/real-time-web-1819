@@ -5,14 +5,21 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="/dist/chartist.css">
+	<link rel="stylesheet" href="/css/style.css">
 	<title>Twitlang</title>
 </head>
 <body>
-	<h1>hallo</h1>
+	<h1>Twitlang</h1>
+	<p>Search for a topic and see in wich language it's being tweeted about the most </p>
 	<form action="" class="topic" >
 		<input type="text">
 	</form>
-	<div class="ct-chart ct-perfect-fourth"></div>
+	<div class="cont">
+		<div class="ct-chart ct-perfect-fourth"></div>
+		<div>
+			<ul class="list"></ul>
+		</div>
+	</div>
 	<script src="socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/dist/chartist.min.js"></script>
 	<script type="text/javascript" src="/dist/chartist_plugin.js"></script>
